@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "name": "fayid-portfolio",
+
+  "rewrites": [
+    { "source": "/api/config",        "destination": "/api/config.js" },
+    { "source": "/api/auth/discord",  "destination": "/api/auth/discord.js" },
+    { "source": "/api/ratings",       "destination": "/api/ratings.js" },
+    { "source": "/callback",          "destination": "/callback.html" },
+    { "source": "/callback.html",     "destination": "/callback.html" }
+  ],
+
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin",  "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" },
+        { "key": "Cache-Control",                "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/callback(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options",        "value": "DENY" },
+        { "key": "Referrer-Policy",        "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}

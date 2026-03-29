@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#060a14" />
+  <title>FayID — Portfolio</title>
+  <!-- Fonts loaded non-blocking so page renders even if Google Fonts is slow -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" /></noscript>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="scanlines"></div>
+<canvas id="particleCanvas"></canvas>
+<!-- Custom cursor — hidden on touch devices via CSS -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+
+<!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">[FAY<span class="accent">ID</span>]</a>
+
+  <div class="nav-center">
+    <a href="#home"   class="nav-link active" data-section="home">
+      <span class="nicon">⌂</span><span data-i18n="nav.home">HOME</span>
+    </a>
+    <a href="#about"  class="nav-link" data-section="about">
+      <span class="nicon">◈</span><span data-i18n="nav.about">ABOUT</span>
+    </a>
+    <a href="#skills" class="nav-link" data-section="skills">
+      <span class="nicon">⚡</span><span data-i18n="nav.skills">SKILLS</span>
+    </a>
+    <a href="#rating" class="nav-link" data-section="rating">
+      <span class="nicon">★</span><span data-i18n="nav.rating">RATING</span>
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="id">ID</button>
+      <button class="lang-btn" data-lang="hi">HI</button>
+    </div>
+    <button class="discord-btn" id="discordLoginBtn" onclick="handleDiscordLogin()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      <span data-i18n="nav.login">LOGIN</span>
+    </button>
+    <div class="user-profile hidden" id="userProfile">
+      <img id="userAvatar" src="" alt="avatar" class="user-avatar" />
+      <span id="userName" class="user-name"></span>
+      <button class="logout-btn" onclick="handleLogout()">✕</button>
+    </div>
+  </div>
+
+  <!-- Hamburger -->
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Drawer -->
+<div class="drawer-overlay hidden" id="drawerOverlay" onclick="closeMobileDrawer()"></div>
+<aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+  <div class="drawer-lang">
+    <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="id">ID</button>
+    <button class="lang-btn" data-lang="hi">HI</button>
+  </div>
+  <a href="#home"   class="drawer-link" data-i18n="nav.home"   onclick="closeMobileDrawer()">HOME</a>
+  <a href="#about"  class="drawer-link" data-i18n="nav.about"  onclick="closeMobileDrawer()">ABOUT</a>
+  <a href="#skills" class="drawer-link" data-i18n="nav.skills" onclick="closeMobileDrawer()">SKILLS</a>
+  <a href="#rating" class="drawer-link" data-i18n="nav.rating" onclick="closeMobileDrawer()">RATING</a>
+  <button class="discord-btn drawer-discord" onclick="handleDiscordLogin();closeMobileDrawer()">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+    <span data-i18n="nav.login">LOGIN</span>
+  </button>
+</aside>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section id="home" class="section hero-section">
+  <div class="hero-grid-bg"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">// INITIALIZING...</div>
+    <h1 class="hero-name">
+      <span class="hero-prefix">&gt;_</span>FAY<span class="accent">ID</span>
+    </h1>
+    <div class="hero-tagline" id="heroTagline"></div>
+    <p class="hero-sub" data-i18n="hero.sub">Developer · Modeler · Creator</p>
+
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-num">3+</span>
+        <span class="stat-lbl" data-i18n="hero.stat1">Years Exp.</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">4</span>
+        <span class="stat-lbl" data-i18n="hero.stat2">Tech Stack</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="avgRating">—</span>
+        <span class="stat-lbl" data-i18n="hero.stat3">Avg Rating</span>
+      </div>
+    </div>
+
+    <div class="hero-btns">
+      <a href="#skills" class="btn-primary"><span data-i18n="hero.btn1">VIEW SKILLS</span> <span>→</span></a>
+      <a href="#rating" class="btn-secondary"><span data-i18n="hero.btn2">RATE ME</span></a>
+    </div>
+  </div>
+
+  <div class="hero-visual" aria-hidden="true">
+    <div class="orb orb-1">🎮</div>
+    <div class="orb orb-2">💻</div>
+    <div class="orb orb-3">⚙️</div>
+    <div class="hero-ring"></div>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span data-i18n="hero.scroll">SCROLL</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════ ABOUT ═══════════════════════ -->
+<section id="about" class="section">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title" data-i18n="about.title">ABOUT ME</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="about-grid">
+    <div class="terminal-card">
+      <div class="terminal-bar">
+        <span class="tdot red"></span>
+        <span class="tdot yellow"></span>
+        <span class="tdot green"></span>
+        <span class="terminal-file">fayid.profile</span>
+      </div>
+      <div class="terminal-body">
+        <p><span class="cmd">$ whoami</span></p>
+        <p class="tout" data-i18n="about.whoami">FayID — Developer &amp; Roblox Creator</p>
+        <br>
+        <p><span class="cmd">$ cat interests.txt</span></p>
+        <p class="tout" data-i18n="about.interests">Game Dev, Scripting, 3D Modelling, Discord Bots</p>
+        <br>
+        <p><span class="cmd">$ ls projects/</span></p>
+        <p class="tout" data-i18n="about.projects">discord-bots/ roblox-models/ lua-scripts/ web-pages/</p>
+        <br>
+        <p><span class="cmd">$ echo $STATUS</span></p>
+        <p class="tout green-text" data-i18n="about.status">OPEN FOR WORK ✓</p>
+        <span class="tcursor">█</span>
+      </div>
+    </div>
+
+    <div class="about-info">
+      <h3 class="about-heading" data-i18n="about.heading">Who is FayID?</h3>
+      <p class="about-text" data-i18n="about.desc">A passionate developer and Roblox creator who loves building things at the intersection of gaming and code. From scripting Discord bots to crafting immersive 3D models, I bring ideas to life with precision and creativity.</p>
+      <div class="tag-row">
+        <span class="tag">Lua</span>
+        <span class="tag">Discord.js</span>
+        <span class="tag">Roblox Studio</span>
+        <span class="tag">HTML/CSS</span>
+        <span class="tag">Game Dev</span>
+        <span class="tag">3D Modelling</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ SKILLS ═══════════════════════ -->
+<section id="skills" class="section">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title" data-i18n="skills.title">EXPERIENCE</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-grid">
+
+    <!-- Lua -->
+    <div class="skill-card" data-skill="lua">
+      <div class="skill-icon-wrap">
+        <div class="skill-icon">
+          <!-- Lua logo: dark blue circle + white circle + smaller white circle (official design) -->
+          <svg viewBox="0 0 56 56" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="26" cy="30" r="24" fill="#00007f"/>
+            <circle cx="26" cy="30" r="11" fill="white"/>
+            <circle cx="40" cy="14" r="9" fill="white"/>
+          </svg>
+        </div>
+        <div class="skill-glow glow-lua"></div>
+      </div>
+      <h3 class="skill-name">Lua</h3>
+      <span class="exp-badge">1 <span data-i18n="skills.year">Year</span></span>
+      <div class="skill-bar-row">
+        <div class="skill-bar"><div class="skill-fill fill-lua" data-pct="40"></div></div>
+        <span class="skill-pct">40%</span>
+      </div>
+      <p class="skill-desc" data-i18n="skills.lua.desc">Roblox scripting, game mechanics, NPC behavior systems and advanced Lua modules.</p>
+      <div class="stag-row"><span class="stag">Roblox</span><span class="stag">Scripting</span><span class="stag">OOP</span></div>
+    </div>
+
+    <!-- Discord.js -->
+    <div class="skill-card featured">
+      <span class="featured-badge" data-i18n="skills.featured">MAIN SKILL</span>
+      <div class="skill-icon-wrap">
+        <div class="skill-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        </div>
+        <div class="skill-glow glow-discord"></div>
+      </div>
+      <h3 class="skill-name">Discord.js</h3>
+      <span class="exp-badge">2 <span data-i18n="skills.years">Years</span></span>
+      <div class="skill-bar-row">
+        <div class="skill-bar"><div class="skill-fill fill-discord" data-pct="75"></div></div>
+        <span class="skill-pct">75%</span>
+      </div>
+      <p class="skill-desc" data-i18n="skills.djs.desc">Building feature-rich Discord bots with slash commands, databases, moderation, music and custom systems.</p>
+      <div class="stag-row"><span class="stag">Node.js</span><span class="stag">Bots</span><span class="stag">API</span></div>
+    </div>
+
+    <!-- Roblox Modelling -->
+    <div class="skill-card featured">
+      <span class="featured-badge" data-i18n="skills.featured">MAIN SKILL</span>
+      <div class="skill-icon-wrap">
+        <div class="skill-icon">
+          <!-- Custom Roblox-style icon -->
+          <svg viewBox="0 0 56 56" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="4" width="48" height="48" rx="10" fill="#e61d22"/>
+            <rect x="12" y="12" width="13" height="13" rx="2" fill="white"/>
+            <rect x="31" y="12" width="13" height="13" rx="2" fill="white"/>
+            <rect x="12" y="31" width="13" height="13" rx="2" fill="white"/>
+            <rect x="31" y="31" width="13" height="13" rx="2" fill="white"/>
+          </svg>
+        </div>
+        <div class="skill-glow glow-roblox"></div>
+      </div>
+      <h3 class="skill-name">Roblox Modelling</h3>
+      <span class="exp-badge">3 <span data-i18n="skills.years">Years</span></span>
+      <div class="skill-bar-row">
+        <div class="skill-bar"><div class="skill-fill fill-roblox" data-pct="90"></div></div>
+        <span class="skill-pct">90%</span>
+      </div>
+      <p class="skill-desc" data-i18n="skills.roblox.desc">Creating detailed 3D environments, props, characters and game assets in Roblox Studio.</p>
+      <div class="stag-row"><span class="stag">3D</span><span class="stag">Blender</span><span class="stag">Studio</span></div>
+    </div>
+
+    <!-- HTML / CSS -->
+    <div class="skill-card">
+      <div class="skill-icon-wrap">
+        <div class="skill-icon">
+          <!-- HTML5 icon -->
+          <svg viewBox="0 0 56 56" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="6,2 50,2 46,50 28,55 10,50" fill="#e34f26"/>
+            <polygon points="28,51 43,47 46.5,10 28,10" fill="#ef652a"/>
+            <polygon points="28,24 19,24 18.4,18 28,18 28,12 12,12 13.5,30 28,30" fill="white"/>
+            <polygon points="28,42 28,35.8 22,34.2 21.6,29 15.4,29 16.4,40 28,42" fill="white"/>
+          </svg>
+        </div>
+        <div class="skill-glow glow-html"></div>
+      </div>
+      <h3 class="skill-name">HTML / CSS</h3>
+      <span class="exp-badge">3 <span data-i18n="skills.months">Months</span></span>
+      <div class="skill-bar-row">
+        <div class="skill-bar"><div class="skill-fill fill-html" data-pct="25"></div></div>
+        <span class="skill-pct">25%</span>
+      </div>
+      <p class="skill-desc" data-i18n="skills.html.desc">Building structured web pages with modern CSS animations, layouts and responsive design.</p>
+      <div class="stag-row"><span class="stag">Web</span><span class="stag">CSS</span><span class="stag">Responsive</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ RATING ═══════════════════════ -->
+<section id="rating" class="section">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title" data-i18n="rating.title">RATE ME</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="rating-container">
+
+    <div class="rating-stats-panel">
+      <h3 class="panel-title" data-i18n="rating.stats">COMMUNITY RATINGS</h3>
+      <div class="big-rating-wrap">
+        <span class="big-num" id="bigRatingNum">—</span>
+        <span class="big-denom">/5</span>
+      </div>
+      <div class="big-stars" id="bigStars">☆☆☆☆☆</div>
+      <p class="rating-count"><span id="ratingCount">0</span> <span data-i18n="rating.reviews">reviews</span></p>
+      <div class="breakdown">
+        <div class="brow"><span>5★</span><div class="bbar"><div class="bfill" id="b5"></div></div><span id="c5">0</span></div>
+        <div class="brow"><span>4★</span><div class="bbar"><div class="bfill" id="b4"></div></div><span id="c4">0</span></div>
+        <div class="brow"><span>3★</span><div class="bbar"><div class="bfill" id="b3"></div></div><span id="c3">0</span></div>
+        <div class="brow"><span>2★</span><div class="bbar"><div class="bfill" id="b2"></div></div><span id="c2">0</span></div>
+        <div class="brow"><span>1★</span><div class="bbar"><div class="bfill" id="b1"></div></div><span id="c1">0</span></div>
+      </div>
+    </div>
+
+    <div class="rating-form-panel">
+      <div class="rating-locked" id="ratingLocked">
+        <div class="lock-emoji">🔒</div>
+        <h3 data-i18n="rating.locked">Login Required</h3>
+        <p data-i18n="rating.lockedDesc">Connect with Discord to leave your rating and review.</p>
+        <button class="discord-btn discord-big" onclick="handleDiscordLogin()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+          <span data-i18n="rating.loginBtn">Login with Discord</span>
+        </button>
+      </div>
+
+      <div class="rating-active hidden" id="ratingActive">
+        <h3 class="form-title" data-i18n="rating.formTitle">LEAVE A RATING</h3>
+        <p class="form-sub" data-i18n="rating.formSub">How would you rate FayID's work?</p>
+        <div class="star-selector" id="starSelector">
+          <span class="star-opt" data-val="1">★</span>
+          <span class="star-opt" data-val="2">★</span>
+          <span class="star-opt" data-val="3">★</span>
+          <span class="star-opt" data-val="4">★</span>
+          <span class="star-opt" data-val="5">★</span>
+        </div>
+        <p class="star-label" id="starLabel" data-i18n="rating.selectStar">Select a rating</p>
+        <textarea class="review-input" id="reviewInput" placeholder="Write your review... (optional)" maxlength="300"></textarea>
+        <button class="submit-btn" id="submitRatingBtn" onclick="submitRating()" disabled>
+          <span data-i18n="rating.submit">SUBMIT RATING</span> →
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="reviews-feed">
+    <h3 class="reviews-title" data-i18n="rating.recentTitle">RECENT REVIEWS</h3>
+    <div class="reviews-list" id="reviewsList">
+      <p class="no-reviews" data-i18n="rating.noReviews">No reviews yet. Be the first!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">[FAY<span class="accent">ID</span>]</div>
+    <p class="footer-copy">© 2025 FayID · <span data-i18n="footer.rights">All Rights Reserved</span></p>
+    <div class="footer-tech">
+      <span>HTML</span><span>CSS</span><span>JS</span><span>Vercel</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/rating.js"></script>
+</body>
+</html>
