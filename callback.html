@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Authenticating — FayDevs</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #060a14; color: #00f0ff;
+      font-family: 'Courier New', monospace;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; overflow: hidden;
+    }
+    .card {
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; gap: 1.4rem; padding: 2.5rem 2rem;
+      background: rgba(10,15,30,0.9); border: 1px solid rgba(0,240,255,0.2);
+      border-radius: 12px; max-width: 320px; width: 90%;
+    }
+    .logo { font-size: 1rem; font-weight: 900; letter-spacing: 0.2em; color: #fff; }
+    .logo span { color: #00f0ff; }
+    .spinner {
+      width: 44px; height: 44px; border: 3px solid rgba(0,240,255,0.15);
+      border-top-color: #00f0ff; border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .status { font-size: 0.82rem; color: #4a6080; letter-spacing: 0.05em; }
+    .status.error-msg { color: #ff2f7b; }
+    .status.success-msg { color: #00ff88; }
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,240,255,0.01) 2px, rgba(0,240,255,0.01) 4px);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">FAY<span>DEVS</span></div>
+    <div class="spinner" id="spinner"></div>
+    <p class="status" id="status">Authenticating with Discord...</p>
+  </div>
+
+  <script>
+    const statusEl  = document.getElementById('status');
+    const spinnerEl = document.getElementById('spinner');
+
+    function setStatus(msg, type) {
+      statusEl.textContent = msg;
+      statusEl.className = 'status ' + (type || '');
+      if (type === 'error-msg') spinnerEl.style.display = 'none';
+    }
+    function done(msg) {
+      setStatus(msg, 'success-msg');
+      spinnerEl.style.display = 'none';
+    }
+
+    (function init() {
+      const params    = new URLSearchParams(window.location.search);
+      const code      = params.get('code');
+      const state     = params.get('state');
+      const error     = params.get('error');
+      const errorDesc = params.get('error_description');
+
+      if (error) {
+        setStatus(error === 'access_denied' ? 'Login cancelled. Redirecting...' : 'Discord error: ' + (errorDesc || error), 'error-msg');
+        setTimeout(() => { if (window.opener) window.close(); else window.location.replace('/'); }, 2000);
+        return;
+      }
+
+      if (!code) {
+        setStatus('No auth code received.', 'error-msg');
+        setTimeout(() => window.location.replace('/'), 2000);
+        return;
+      }
+
+      if (window.opener && !window.opener.closed) {
+        try {
+          window.opener.postMessage({ type: 'DISCORD_CALLBACK', code, state }, window.location.origin);
+          done('Authenticated! Closing...');
+          setTimeout(() => window.close(), 800);
+        } catch (e) {
+          redirectFlow(code, state);
+        }
+        return;
+      }
+
+      redirectFlow(code, state);
+    })();
+
+    function redirectFlow(code, state) {
+      setStatus('Redirecting back...');
+      try {
+        sessionStorage.setItem('discord_callback_code',  code);
+        sessionStorage.setItem('discord_callback_state', state || '');
+      } catch (_) {}
+      window.location.replace('/');
+    }
+  </script>
+</body>
+</html>
