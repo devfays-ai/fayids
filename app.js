@@ -4,8 +4,8 @@
 // ══════════════════════════════════════════════════════════
 
 const CONFIG = {
-  DISCORD_CLIENT_ID: '',
-  DISCORD_REDIRECT_URI: window.location.origin + '/callback',
+  DISCORD_CLIENT_ID: '1481898609611112489',
+  DISCORD_REDIRECT_URI: 'https://discord.com/oauth2/authorize?client_id=1481898609611112489&response_type=code&redirect_uri=https%3A%2F%2Ffayid.qzz.io%2Fcallback&scope=identify',
   DISCORD_SCOPE: 'identify',
   API: '/api',
 };
