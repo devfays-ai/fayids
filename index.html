@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fays — Dev Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --neon-cyan: #00f5ff;
+  --neon-pink: #ff006e;
+  --neon-purple: #bf00ff;
+  --neon-green: #39ff14;
+  --neon-orange: #ff6600;
+  --bg-dark: #050510;
+  --bg-card-dark: #0a0a1e;
+  --bg-card2-dark: #0d0d2b;
+  --text-dark: #e0e0ff;
+  --text-muted-dark: #7a7aaa;
+  --border-dark: rgba(0,245,255,0.25);
+  --bg-light: #f0f4ff;
+  --bg-card-light: #ffffff;
+  --bg-card2-light: #eef2ff;
+  --text-light: #1a1a3e;
+  --text-muted-light: #5555aa;
+  --border-light: rgba(100,0,255,0.25);
+
+  --bg: var(--bg-dark);
+  --bg-card: var(--bg-card-dark);
+  --bg-card2: var(--bg-card2-dark);
+  --text: var(--text-dark);
+  --text-muted: var(--text-muted-dark);
+  --border: var(--border-dark);
+
+  --icon-filter: invert(0) brightness(1);
+  --icon-filter-accent: invert(0) brightness(1.5) sepia(1) hue-rotate(160deg) saturate(10);
+}
+
+[data-theme="light"] {
+  --bg: var(--bg-light);
+  --bg-card: var(--bg-card-light);
+  --bg-card2: var(--bg-card2-light);
+  --text: var(--text-light);
+  --text-muted: var(--text-muted-light);
+  --border: var(--border-light);
+  --icon-filter: invert(1) brightness(0.3) sepia(1) hue-rotate(220deg) saturate(5);
+  --icon-filter-accent: invert(1) brightness(0.2) sepia(1) hue-rotate(260deg) saturate(8);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.4s, color 0.4s;
+}
+
+/* ── GRID BG ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme="light"] body::before {
+  background-image:
+    linear-gradient(rgba(100,0,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100,0,255,0.06) 1px, transparent 1px);
+}
+
+/* ── NOISE OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 40px;
+  backdrop-filter: blur(20px);
+  background: rgba(5,5,16,0.85);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.4s;
+}
+
+[data-theme="light"] nav {
+  background: rgba(240,244,255,0.9);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px var(--neon-cyan);
+  text-decoration: none;
+}
+
+.nav-logo img {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--neon-cyan);
+  box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.nav-logo .logo-fallback {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 2px solid var(--neon-cyan);
+  box-shadow: 0 0 10px var(--neon-cyan);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  background: rgba(0,245,255,0.1);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  text-shadow: 0 0 8px var(--neon-cyan);
+  box-shadow: 0 0 12px rgba(0,245,255,0.2);
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ctrl-btn {
+  background: rgba(0,245,255,0.08);
+  border: 1px solid var(--border);
+  color: var(--neon-cyan);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transition: all 0.3s;
+}
+
+.ctrl-btn:hover {
+  background: rgba(0,245,255,0.18);
+  box-shadow: 0 0 14px rgba(0,245,255,0.3);
+}
+
+/* ── LANG SELECTOR ── */
+.lang-dropdown { position: relative; }
+.lang-menu {
+  display: none;
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--neon-cyan);
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 140px;
+  box-shadow: 0 0 20px rgba(0,245,255,0.2);
+}
+
+.lang-menu.open { display: block; }
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.2s;
+  color: var(--text);
+}
+
+.lang-option:hover {
+  background: rgba(0,245,255,0.1);
+  color: var(--neon-cyan);
+}
+
+.lang-option.active {
+  color: var(--neon-cyan);
+  background: rgba(0,245,255,0.08);
+}
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  padding: 100px 40px 60px;
+  text-align: center;
+}
+
+.hero-glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: orbFloat 6s ease-in-out infinite alternate;
+}
+
+.orb1 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(0,245,255,0.15) 0%, transparent 70%);
+  top: 10%; left: -5%;
+}
+
+.orb2 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(191,0,255,0.15) 0%, transparent 70%);
+  bottom: 10%; right: -5%;
+  animation-delay: -3s;
+}
+
+@keyframes orbFloat {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(-30px) scale(1.1); }
+}
+
+.hero-avatar {
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  border: 3px solid var(--neon-cyan);
+  box-shadow: 0 0 30px rgba(0,245,255,0.5), inset 0 0 20px rgba(0,245,255,0.1);
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: var(--bg-card);
+  position: relative;
+  animation: avatarPulse 3s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.hero-avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+@keyframes avatarPulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(0,245,255,0.5); }
+  50% { box-shadow: 0 0 60px rgba(0,245,255,0.8), 0 0 100px rgba(0,245,255,0.3); }
+}
+
+.hero-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.rainbow-text {
+  background: linear-gradient(90deg,
+    #ff0066 0%,
+    #ff3300 12%,
+    #ff9900 24%,
+    #ccff00 36%,
+    #00ff88 48%,
+    #00f5ff 60%,
+    #0066ff 72%,
+    #8800ff 84%,
+    #ff0066 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowFlow 3s linear infinite;
+}
+
+@keyframes rainbowFlow {
+  from { background-position: 0% center; }
+  to { background-position: 200% center; }
+}
+
+.hero-subtitle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(0.85rem, 2vw, 1.1rem);
+  color: var(--neon-cyan);
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+}
+
+.hero-tagline {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--text-muted);
+  font-weight: 300;
+  margin-bottom: 36px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  color: #000;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s;
+}
+
+.btn-primary:hover::before { transform: translateX(100%); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,245,255,0.4); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  background: transparent;
+  color: var(--neon-cyan);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--neon-cyan);
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background: rgba(0,245,255,0.1);
+  box-shadow: 0 0 20px rgba(0,245,255,0.3);
+  transform: translateY(-2px);
+}
+
+/* ── SECTION ── */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 80px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--neon-cyan), transparent);
+}
+
+.section-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--neon-cyan);
+  letter-spacing: 0.2em;
+}
+
+.section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 900;
+  color: var(--text);
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,245,255,0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.card:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 30px rgba(0,245,255,0.15);
+  transform: translateY(-4px);
+}
+
+/* ── EXPERIENCE ── */
+.exp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.exp-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.exp-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+
+.exp-card:hover::after { transform: scaleX(1); }
+.exp-card:hover { border-color: var(--accent); box-shadow: 0 0 20px rgba(0,245,255,0.15); transform: translateY(-3px); }
+
+.exp-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.exp-icon svg, .exp-icon img {
+  width: 28px; height: 28px;
+  filter: var(--icon-filter-accent);
+}
+
+.exp-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.exp-level {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.exp-bar {
+  height: 4px;
+  background: rgba(0,245,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.exp-fill {
+  height: 100%;
+  background: var(--accent, var(--neon-cyan));
+  border-radius: 2px;
+  animation: fillBar 1.5s ease forwards;
+  transform-origin: left;
+}
+
+@keyframes fillBar {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ── PROJECTS ── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.project-card.top-project {
+  border-color: var(--neon-cyan);
+  background: linear-gradient(135deg, var(--bg-card) 60%, rgba(0,245,255,0.05));
+}
+
+.project-card.top-project::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+}
+
+.project-card:hover {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 40px rgba(191,0,255,0.2);
+  transform: translateY(-6px);
+}
+
+.project-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0,245,255,0.1);
+  border: 1px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.project-logo {
+  width: 56px; height: 56px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  object-fit: cover;
+  background: var(--bg-card2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  overflow: hidden;
+}
+
+.project-logo img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+.project-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.project-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  background: rgba(191,0,255,0.1);
+  border: 1px solid rgba(191,0,255,0.3);
+  color: var(--neon-purple);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* ── SOCIAL ── */
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.social-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--s-color, var(--neon-cyan));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.social-card:hover::before { opacity: 0.07; }
+
+.social-card:hover {
+  border-color: var(--s-color, var(--neon-cyan));
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px var(--s-glow, rgba(0,245,255,0.2));
+}
+
+.social-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  background: rgba(0,245,255,0.08);
+  border: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+.social-icon svg {
+  width: 22px; height: 22px;
+}
+
+.social-info { position: relative; z-index: 1; }
+.social-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+.social-handle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── DISCORD ── */
+#discord-section {
+  background: linear-gradient(135deg, rgba(88,101,242,0.1), rgba(0,245,255,0.05));
+  border: 1px solid rgba(88,101,242,0.4);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.discord-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: #5865F2;
+  color: white;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+  margin-top: 20px;
+}
+
+.discord-btn:hover {
+  background: #4752C4;
+  box-shadow: 0 0 30px rgba(88,101,242,0.5);
+  transform: translateY(-2px);
+}
+
+.discord-btn svg {
+  width: 20px; height: 20px;
+}
+
+.discord-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green);
+  animation: statusBlink 2s infinite;
+}
+
+@keyframes statusBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── CURSOR ── */
+.cursor-glow {
+  position: fixed;
+  width: 20px; height: 20px;
+  border: 2px solid var(--neon-cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
+  mix-blend-mode: difference;
+}
+
+.cursor-dot {
+  position: fixed;
+  width: 4px; height: 4px;
+  background: var(--neon-cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+/* ── PARTICLES ── */
+.particle {
+  position: fixed;
+  width: 2px; height: 2px;
+  background: var(--neon-cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 32px;
+  border-top: 1px solid var(--border);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ── MENU MOBILE ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--neon-cyan);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+/* ── TYPING CURSOR ── */
+.type-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: var(--neon-cyan);
+  margin-left: 2px;
+  animation: blink 1s infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── SECTION DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+  margin: 0 40px;
+  opacity: 0.3;
+}
+
+/* ── SCROLLED REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── NEON GLOW TEXT ── */
+.neon-text {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  section { padding: 60px 20px; }
+  #hero { padding: 90px 20px 50px; }
+  .hero-cta { flex-direction: column; align-items: center; }
+  .exp-grid { grid-template-columns: repeat(2, 1fr); }
+  .projects-grid { grid-template-columns: 1fr; }
+  .social-grid { grid-template-columns: 1fr; }
+  .nav-controls { gap: 5px; }
+  .ctrl-btn { padding: 5px 8px; font-size: 0.55rem; }
+  #discord-section { padding: 24px; }
+}
+
+/* ── SCANLINE EFFECT ── */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.scanline {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: rgba(0,245,255,0.04);
+  pointer-events: none;
+  z-index: 1;
+  animation: scanline 8s linear infinite;
+}
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div id="particles"></div>
+
+<!-- Custom cursor -->
+<div class="cursor-glow" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Scanline -->
+<div class="scanline"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <div class="logo-fallback" id="navLogoFallback">⚡</div>
+    <img id="navLogoImg" src="https://raw.githubusercontent.com/fayajacuyyy/fayajacuyyy/main/logo.png"
+         onerror="this.style.display='none'; document.getElementById('navLogoFallback').style.display='flex';"
+         onload="this.style.display='block'; document.getElementById('navLogoFallback').style.display='none';"
+         style="display:none; width:36px;height:36px;border-radius:8px;" alt="Logo">
+    FAYS
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#about" data-i18n="nav_about">ABOUT</a></li>
+    <li><a href="#skills" data-i18n="nav_skills">SKILLS</a></li>
+    <li><a href="#projects" data-i18n="nav_projects">PROJECTS</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">CONTACT</a></li>
+  </ul>
+
+  <div class="nav-controls">
+    <!-- Language -->
+    <div class="lang-dropdown">
+      <button class="ctrl-btn" onclick="toggleLangMenu()" id="langBtn">🌐 ID</button>
+      <div class="lang-menu" id="langMenu">
+        <div class="lang-option active" onclick="setLang('id')">🇮🇩 Bahasa Indonesia</div>
+        <div class="lang-option" onclick="setLang('en')">🇬🇧 English</div>
+        <div class="lang-option" onclick="setLang('hi')">🇮🇳 Hindi (Roman)</div>
+        <div class="lang-option" onclick="setLang('gaul')">🔥 Bahasa Gaul</div>
+      </div>
+    </div>
+    <!-- Theme -->
+    <button class="ctrl-btn" onclick="toggleTheme()" id="themeBtn">🌙 DARK</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section id="hero">
+  <div class="hero-glow-orb orb1"></div>
+  <div class="hero-glow-orb orb2"></div>
+
+  <div>
+    <div class="hero-avatar">
+      <img id="heroLogo"
+           src="https://raw.githubusercontent.com/fayajacuyyy/fayajacuyyy/main/logo.png"
+           onerror="this.style.display='none'; this.parentElement.innerHTML='⚡';"
+           onload="this.style.display='block';"
+           style="display:none;" alt="Fays">
+      <span id="heroFallback">⚡</span>
+    </div>
+
+    <div class="hero-subtitle">
+      <span class="type-cursor"></span>
+      <span id="heroSub"></span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="rainbow-text">FAYS</span>
+    </h1>
+
+    <p class="hero-tagline" id="heroTagline">Discord Bot Developer & Roblox Modeler</p>
+
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">
+        <!-- gamepad icon -->
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5S14.67 12 15.5 12s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm2-3c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+        <span data-i18n="cta_projects">Lihat Project</span>
+      </a>
+      <a href="#contact" class="btn-secondary">
+        <!-- message icon -->
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        <span data-i18n="cta_contact">Hubungi Gue</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ ABOUT ═══════════════════ -->
+<section id="about">
+  <div class="section-header reveal">
+    <div class="section-line"></div>
+    <span class="section-label">01 // ABOUT</span>
+    <div class="section-line" style="background: linear-gradient(90deg, transparent, var(--neon-cyan));"></div>
+  </div>
+
+  <div class="card reveal">
+    <div style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
+      <div style="flex:1; min-width:250px;">
+        <h2 class="section-title" style="margin-bottom:16px;" data-i18n="about_title">Halo, Gue <span class="neon-text">Fays</span> 👾</h2>
+        <p style="color:var(--text-muted); line-height:1.8; font-size:1rem;" data-i18n="about_desc">
+          Gue developer yang fokus di Discord Bots dan Roblox Modeling. Udah ngebangun berbagai macam bot Discord dari yang sekedar fun sampe yang beneran berguna. Kalo bukan lagi ngoding, gue lagi modeling di Roblox Studio.
+        </p>
+        <div style="margin-top:20px; display:flex; gap:16px; flex-wrap:wrap;">
+          <div style="text-align:center; padding:16px 24px; background:var(--bg-card2); border:1px solid var(--border); border-radius:10px;">
+            <div class="rainbow-text" style="font-family:'Orbitron',sans-serif; font-size:1.8rem; font-weight:900;">3+</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);" data-i18n="stat_bots">Discord Bots</div>
+          </div>
+          <div style="text-align:center; padding:16px 24px; background:var(--bg-card2); border:1px solid var(--border); border-radius:10px;">
+            <div class="rainbow-text" style="font-family:'Orbitron',sans-serif; font-size:1.8rem; font-weight:900;">3Y</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);" data-i18n="stat_roblox">Roblox Dev</div>
+          </div>
+          <div style="text-align:center; padding:16px 24px; background:var(--bg-card2); border:1px solid var(--border); border-radius:10px;">
+            <div class="rainbow-text" style="font-family:'Orbitron',sans-serif; font-size:1.8rem; font-weight:900;">5+</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);" data-i18n="stat_lang">Languages</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ SKILLS ═══════════════════ -->
+<section id="skills">
+  <div class="section-header reveal">
+    <div class="section-line"></div>
+    <span class="section-label">02 // SKILLS</span>
+    <div class="section-line" style="background: linear-gradient(90deg, transparent, var(--neon-purple));"></div>
+  </div>
+
+  <div class="exp-grid">
+
+    <!-- Node.js -->
+    <div class="exp-card reveal" style="--accent: var(--neon-green);">
+      <div class="exp-icon" style="background:rgba(57,255,20,0.1); border:1px solid rgba(57,255,20,0.3);">
+        <svg viewBox="0 0 24 24" fill="#539e43" style="filter:none !important;"><path d="M11.998.006C5.373.006 0 5.381 0 12.006s5.373 12 11.998 12c6.628 0 12.003-5.374 12.003-12S18.626.006 11.998.006zm-.09 4.5l.09-.003c.15 0 .3.04.432.114l4.497 2.598a.866.866 0 01.433.75v5.197a.87.87 0 01-.433.75l-1.122.648-.012.008-1.116.644-.012.007a.871.871 0 01-.864 0l-2.812-1.623v-.003a.869.869 0 01-.43-.747v-1.29l1.728-.998v.647l1.082.625 1.122-.648V9.88l-4.5-2.597-4.498 2.597v5.197l4.498 2.598 1.619-.935 1.127.652-1.614.931-.002.001a.871.871 0 01-.864 0l-4.497-2.597a.866.866 0 01-.432-.75V9.881a.87.87 0 01.432-.75l4.498-2.598a.868.868 0 01.432-.114l.009.087z"/></svg>
+      </div>
+      <div class="exp-name">Node.js</div>
+      <div class="exp-level">1.3 <span data-i18n="years">Tahun</span></div>
+      <div class="exp-bar"><div class="exp-fill" style="width:80%; background:var(--neon-green);"></div></div>
+    </div>
+
+    <!-- Discord.js -->
+    <div class="exp-card reveal" style="--accent: #5865F2;">
+      <div class="exp-icon" style="background:rgba(88,101,242,0.1); border:1px solid rgba(88,101,242,0.3);">
+        <svg viewBox="0 0 24 24" fill="#5865F2" style="filter:none !important;"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.104a13.201 13.201 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.105c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      </div>
+      <div class="exp-name">Discord.js</div>
+      <div class="exp-level">1.2 <span data-i18n="years">Tahun</span></div>
+      <div class="exp-bar"><div class="exp-fill" style="width:75%; background:#5865F2;"></div></div>
+    </div>
+
+    <!-- Roblox Modeling -->
+    <div class="exp-card reveal" style="--accent: var(--neon-orange);">
+      <div class="exp-icon" style="background:rgba(255,102,0,0.1); border:1px solid rgba(255,102,0,0.3);">
+        <svg viewBox="0 0 24 24" fill="var(--neon-orange)" style="filter:none !important;"><path d="M3.889 4.68L6.68 3.889l13.43 13.43-.791 2.792-2.792.791z"/><path d="M3.889 19.32L3.097 16.527 16.527 3.097l2.791.792.793 2.791z"/></svg>
+      </div>
+      <div class="exp-name">Roblox Modeling</div>
+      <div class="exp-level">3 <span data-i18n="years">Tahun</span></div>
+      <div class="exp-bar"><div class="exp-fill" style="width:90%; background:var(--neon-orange);"></div></div>
+    </div>
+
+    <!-- Lua -->
+    <div class="exp-card reveal" style="--accent: var(--neon-cyan);">
+      <div class="exp-icon" style="background:rgba(0,245,255,0.1); border:1px solid rgba(0,245,255,0.3);">
+        <svg viewBox="0 0 24 24" fill="var(--neon-cyan)" style="filter:none !important;"><circle cx="12" cy="12" r="10"/><circle cx="17" cy="7" r="3" fill="var(--bg-card)"/></svg>
+      </div>
+      <div class="exp-name">Lua</div>
+      <div class="exp-level">2 <span data-i18n="years">Tahun</span></div>
+      <div class="exp-bar"><div class="exp-fill" style="width:70%; background:var(--neon-cyan);"></div></div>
+    </div>
+
+    <!-- HTML -->
+    <div class="exp-card reveal" style="--accent: #e34f26;">
+      <div class="exp-icon" style="background:rgba(227,79,38,0.1); border:1px solid rgba(227,79,38,0.3);">
+        <svg viewBox="0 0 24 24" fill="#e34f26" style="filter:none !important;"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg>
+      </div>
+      <div class="exp-name">HTML</div>
+      <div class="exp-level">5 <span data-i18n="months">Bulan</span></div>
+      <div class="exp-bar"><div class="exp-fill" style="width:35%; background:#e34f26;"></div></div>
+    </div>
+
+    <!-- Python -->
+    <div class="exp-card reveal" style="--accent: #3776ab;">
+      <div class="exp-icon" style="background:rgba(55,118,171,0.1); border:1px solid rgba(55,118,171,0.3);">
+        <svg viewBox="0 0 24 24" fill="#3776ab" style="filter:none !important;"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.26-.02.21.02h3.97l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.37.1-.35.07-.32.04-.27.02-.21V5.02l.02-.22.07-.32.1-.35.15-.37.2-.36.27-.35.33-.32.41-.28.5-.21.59-.14.69-.05h6.95z"/><path d="M17.16 1.81l.41.27.33.32.27.35.2.36.15.37.1.35.07.32.04.27.02.21V8.5l-.02.2-.07.32-.1.35-.15.37-.2.36-.27.35-.33.32-.41.27-.5.22-.59.14-.69.05H8.77l-.21.02-.26.04-.3.07-.33.1-.35.14-.35.19-.33.25-.3.31-.26.38-.21.46-.13.55-.05.63v5.32l-.02.21-.05.26-.1.3-.16.33-.25.34-.34.34-.45.32-.59.3-.73.26-.9.2-1.05.13H2.39l-.21-.01-.26-.04-.3-.07-.33-.1-.35-.14-.35-.19-.33-.25-.3-.31-.26-.38-.21-.46-.13-.55-.05-.63V8.5l.05-.63.13-.55.21-.46.26-.38.3-.31.33-.25.35-.19.35-.14.33-.1.3-.07.26-.04.21-.02h6.07l.69-.05.59-.14.5-.22.41-.27.33-.32.27-.35.2-.36.15-.37.1-.35.07-.32.04-.27.02-.21V5.84l.02-.2.04-.27.07-.32.1-.35.15-.37.2-.36.27-.35.33-.32.41-.28.5-.21.59-.14.69-.05h6.01l1.05.14z" fill="gold"/></svg>
+      </div>
+      <div class="exp-name">Python</div>
+      <div class="exp-level">2 <span data-i18n="months">Bulan</span></div>
+      <div class="exp-bar"><div class="exp-fill" style="width:15%; background:#3776ab;"></div></div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ PROJECTS ═══════════════════ -->
+<section id="projects">
+  <div class="section-header reveal">
+    <div class="section-line"></div>
+    <span class="section-label">03 // PROJECTS</span>
+    <div class="section-line" style="background: linear-gradient(90deg, transparent, var(--neon-pink));"></div>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- Fyrox - TOP PROJECT -->
+    <div class="project-card top-project reveal">
+      <div class="project-badge">
+        <!-- star icon -->
+        <svg viewBox="0 0 24 24" fill="var(--neon-cyan)" width="10" height="10"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        TOP PROJECT
+      </div>
+      <div class="project-logo">
+        <img src="https://raw.githubusercontent.com/fayajacuyyy/fayajacuyyy/main/fyrox.png"
+             onerror="this.style.display='none'; this.parentElement.innerHTML='🤖';"
+             alt="Fyrox">
+      </div>
+      <div class="project-name"><span class="rainbow-text">Fyrox™</span></div>
+      <div class="project-desc" data-i18n="fyrox_desc">Bot Discord all-in-one yang punya segala fitur. Dari moderation, music, games, ekonomi, sampe utility — semua ada di satu bot.</div>
+      <div class="project-tags">
+        <span class="tag">discord.js</span>
+        <span class="tag">node.js</span>
+        <span class="tag">all-in-one</span>
+        <span class="tag">moderation</span>
+        <span class="tag">music</span>
+      </div>
+    </div>
+
+    <!-- ListenX -->
+    <div class="project-card reveal">
+      <div class="project-logo" style="font-size:1.8rem;">🎵</div>
+      <div class="project-name">ListenX</div>
+      <div class="project-desc" data-i18n="listenx_desc">Bot musik Discord yang simpel tapi powerful. Bisa putar lagu dari berbagai sumber, queue management, dan kontrol audio yang lengkap.</div>
+      <div class="project-tags">
+        <span class="tag">discord.js</span>
+        <span class="tag">music bot</span>
+        <span class="tag">node.js</span>
+        <span class="tag">audio</span>
+      </div>
+    </div>
+
+    <!-- OHBump -->
+    <div class="project-card reveal">
+      <div class="project-logo" style="font-size:1.8rem;">🔔</div>
+      <div class="project-name">OHBump</div>
+      <div class="project-desc" data-i18n="ohbump_desc">Bot bump otomatis buat Discord server. Bantu server kamu tetap aktif dan selalu muncul di list dengan bump yang terjadwal.</div>
+      <div class="project-tags">
+        <span class="tag">discord.js</span>
+        <span class="tag">bump bot</span>
+        <span class="tag">automation</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ DISCORD LOGIN ═══════════════════ -->
+<section id="discord" style="padding-top: 40px;">
+  <div id="discord-section" class="reveal">
+    <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:12px;">
+      <svg viewBox="0 0 24 24" fill="#5865F2" width="32" height="32"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.104a13.201 13.201 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.105c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      <h2 style="font-family:'Orbitron',sans-serif; font-size:1.4rem; font-weight:900; color:#5865F2; text-shadow:0 0 20px rgba(88,101,242,0.5);">Discord</h2>
+    </div>
+    <p style="color:var(--text-muted); font-size:0.95rem;" data-i18n="discord_desc">Connect sama gue langsung di Discord!</p>
+    <div class="discord-status">
+      <div class="status-dot"></div>
+      <span data-i18n="discord_status">Online & Siap Chat</span>
+    </div>
+    <a href="https://discord.com/users/fayajacuyyy" target="_blank" class="discord-btn">
+      <svg viewBox="0 0 24 24" fill="white"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.104a13.201 13.201 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.105c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      <span data-i18n="discord_btn">Hubungi via Discord</span>
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════════ CONTACT / SOCIALS ═══════════════════ -->
+<section id="contact">
+  <div class="section-header reveal">
+    <div class="section-line"></div>
+    <span class="section-label">04 // CONTACT</span>
+    <div class="section-line" style="background: linear-gradient(90deg, transparent, var(--neon-green));"></div>
+  </div>
+
+  <div class="social-grid">
+
+    <!-- Instagram -->
+    <a href="https://instagram.com/fay.devss" target="_blank" class="social-card reveal"
+       style="--s-color:#E1306C; --s-glow:rgba(225,48,108,0.3);">
+      <div class="social-icon" style="background:rgba(225,48,108,0.1); border-color:rgba(225,48,108,0.3);">
+        <svg viewBox="0 0 24 24" fill="#E1306C"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </div>
+      <div class="social-info">
+        <div class="social-name">INSTAGRAM</div>
+        <div class="social-handle">@fay.devss</div>
+      </div>
+    </a>
+
+    <!-- TikTok -->
+    <a href="https://tiktok.com/@fay.devss" target="_blank" class="social-card reveal"
+       style="--s-color:#69C9D0; --s-glow:rgba(105,201,208,0.3);">
+      <div class="social-icon" style="background:rgba(105,201,208,0.1); border-color:rgba(105,201,208,0.3);">
+        <svg viewBox="0 0 24 24" fill="#69C9D0"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.73a8.27 8.27 0 004.83 1.55V6.84a4.85 4.85 0 01-1.06-.15z"/></svg>
+      </div>
+      <div class="social-info">
+        <div class="social-name">TIKTOK</div>
+        <div class="social-handle">@fay.devss</div>
+      </div>
+    </a>
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/6285199284292" target="_blank" class="social-card reveal"
+       style="--s-color:#25D366; --s-glow:rgba(37,211,102,0.3);">
+      <div class="social-icon" style="background:rgba(37,211,102,0.1); border-color:rgba(37,211,102,0.3);">
+        <svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      </div>
+      <div class="social-info">
+        <div class="social-name">WHATSAPP</div>
+        <div class="social-handle">+62 851 9928 4292</div>
+      </div>
+    </a>
+
+    <!-- Email -->
+    <a href="mailto:devfays@gmail.com" class="social-card reveal"
+       style="--s-color:#EA4335; --s-glow:rgba(234,67,53,0.3);">
+      <div class="social-icon" style="background:rgba(234,67,53,0.1); border-color:rgba(234,67,53,0.3);">
+        <svg viewBox="0 0 24 24" fill="#EA4335"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+      </div>
+      <div class="social-info">
+        <div class="social-name">EMAIL</div>
+        <div class="social-handle">devfays@gmail.com</div>
+      </div>
+    </a>
+
+    <!-- Discord -->
+    <a href="https://discord.com/users/fayajacuyyy" target="_blank" class="social-card reveal"
+       style="--s-color:#5865F2; --s-glow:rgba(88,101,242,0.3);">
+      <div class="social-icon" style="background:rgba(88,101,242,0.1); border-color:rgba(88,101,242,0.3);">
+        <svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.104a13.201 13.201 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.105c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      </div>
+      <div class="social-info">
+        <div class="social-name">DISCORD</div>
+        <div class="social-handle">fayajacuyyy</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div style="margin-bottom:8px;">
+    <span class="rainbow-text" style="font-family:'Orbitron',sans-serif; font-size:1rem; font-weight:900;">FAYS</span>
+  </div>
+  <div data-i18n="footer_made">Made with ⚡ by Fays</div>
+  <div style="margin-top:4px; font-size:0.65rem; opacity:0.5;">© 2025 Fays. All rights reserved.</div>
+</footer>
+
+<script>
+// ═══ TRANSLATIONS ═══
+const translations = {
+  id: {
+    nav_about: 'TENTANG', nav_skills: 'KEAHLIAN', nav_projects: 'PROJECT', nav_contact: 'KONTAK',
+    cta_projects: 'Lihat Project', cta_contact: 'Hubungi Gue',
+    heroSub: '> Discord Bot Developer & Roblox Modeler_',
+    heroTagline: 'Ngebangun tools keren buat komunitas Discord & Roblox',
+    about_title: 'Halo, Gue <span class="neon-text">Fays</span> 👾',
+    about_desc: 'Gue developer yang fokus di Discord Bots dan Roblox Modeling. Udah ngebangun berbagai macam bot Discord dari yang sekedar fun sampe yang beneran berguna. Kalo bukan lagi ngoding, gue lagi modeling di Roblox Studio.',
+    stat_bots: 'Discord Bots', stat_roblox: 'Roblox Dev', stat_lang: 'Languages',
+    years: 'Tahun', months: 'Bulan',
+    fyrox_desc: 'Bot Discord all-in-one yang punya segala fitur. Dari moderation, music, games, ekonomi, sampe utility — semua ada di satu bot.',
+    listenx_desc: 'Bot musik Discord yang simpel tapi powerful. Bisa putar lagu dari berbagai sumber, queue management, dan kontrol audio yang lengkap.',
+    ohbump_desc: 'Bot bump otomatis buat Discord server. Bantu server kamu tetap aktif dan selalu muncul di list dengan bump yang terjadwal.',
+    discord_desc: 'Connect sama gue langsung di Discord!',
+    discord_status: 'Online & Siap Chat',
+    discord_btn: 'Hubungi via Discord',
+    footer_made: 'Dibuat dengan ⚡ oleh Fays',
+    langLabel: '🇮🇩 ID'
+  },
+  en: {
+    nav_about: 'ABOUT', nav_skills: 'SKILLS', nav_projects: 'PROJECTS', nav_contact: 'CONTACT',
+    cta_projects: 'View Projects', cta_contact: 'Contact Me',
+    heroSub: '> Discord Bot Developer & Roblox Modeler_',
+    heroTagline: 'Building cool tools for Discord communities & Roblox',
+    about_title: 'Hey, I\'m <span class="neon-text">Fays</span> 👾',
+    about_desc: 'I\'m a developer focused on Discord Bots and Roblox Modeling. I\'ve built various Discord bots ranging from fun to genuinely useful. When I\'m not coding, I\'m modeling in Roblox Studio.',
+    stat_bots: 'Discord Bots', stat_roblox: 'Roblox Dev', stat_lang: 'Languages',
+    years: 'Years', months: 'Months',
+    fyrox_desc: 'An all-in-one Discord bot with every feature you need. From moderation, music, games, economy, to utilities — all in one bot.',
+    listenx_desc: 'A simple yet powerful Discord music bot. Play songs from multiple sources, with full queue management and audio controls.',
+    ohbump_desc: 'Auto-bump bot for Discord servers. Keeps your server active and always visible on the list with scheduled bumps.',
+    discord_desc: 'Connect with me directly on Discord!',
+    discord_status: 'Online & Ready to Chat',
+    discord_btn: 'Message on Discord',
+    footer_made: 'Made with ⚡ by Fays',
+    langLabel: '🇬🇧 EN'
+  },
+  hi: {
+    nav_about: 'BARE MEIN', nav_skills: 'SKILLS', nav_projects: 'PROJECTS', nav_contact: 'SAMPARK',
+    cta_projects: 'Projects Dekho', cta_contact: 'Sampark Karo',
+    heroSub: '> Discord Bot Developer & Roblox Modeler_',
+    heroTagline: 'Discord aur Roblox ke liye cool tools banata hoon',
+    about_title: 'Namaste, Main <span class="neon-text">Fays</span> hoon 👾',
+    about_desc: 'Main ek developer hoon jo Discord Bots aur Roblox Modeling mein focus karta hoon. Maine kai tarah ke Discord bots banaye hain — fun se lekar genuinely useful tak. Jab coding nahi karta, tab Roblox Studio mein modeling karta hoon.',
+    stat_bots: 'Discord Bots', stat_roblox: 'Roblox Dev', stat_lang: 'Languages',
+    years: 'Saal', months: 'Mahine',
+    fyrox_desc: 'Ek all-in-one Discord bot jo har feature ke saath aata hai. Moderation, music, games, economy, aur utilities — sab kuch ek bot mein.',
+    listenx_desc: 'Ek simple lekin powerful Discord music bot. Kai sources se gaane bajao, queue manage karo, aur audio fully control karo.',
+    ohbump_desc: 'Discord servers ke liye auto-bump bot. Scheduled bumps se server ko active aur list mein visible rakho.',
+    discord_desc: 'Discord par seedha mujhse connect karo!',
+    discord_status: 'Online & Baat karne ke liye taiyaar',
+    discord_btn: 'Discord par Message karo',
+    footer_made: 'Fays ne ⚡ ke saath banaya',
+    langLabel: '🇮🇳 HI'
+  },
+  gaul: {
+    nav_about: 'GUENYA', nav_skills: 'JAGOAN', nav_projects: 'KARYA', nav_contact: 'NYAMBUNG',
+    cta_projects: 'Cek Karya Gue', cta_contact: 'Gaspol Kontak',
+    heroSub: '> Discord Bot Dev & Roblox Modeler, bestie_',
+    heroTagline: 'Bikin tools kece buat komunitas Discord & Roblox, gaspolll!',
+    about_title: 'Yoo, Gue <span class="neon-text">Fays</span> wkwk 👾',
+    about_desc: 'Gue seorang dev yang spesialis Discord Bots sama Roblox Modeling bestie. Udah bikin banyak bot Discord dari yang iseng-iseng sampe yang beneran niat. Kalo gak lagi ngoding, pasti gue lagi sibuk modeling di Roblox Studio.',
+    stat_bots: 'Discord Bots', stat_roblox: 'Roblox Dev', stat_lang: 'Bahasa',
+    years: 'Tahun', months: 'Bulan',
+    fyrox_desc: 'Bot Discord all-in-one yang lengkap banget bestie. Ada moderation, music, games, ekonomi, sampe utility — komplit semua dalam satu bot, gaskeun!',
+    listenx_desc: 'Bot musik Discord yang simpel tapi nampol banget. Bisa puter lagu dari mana aja, manage queue, sama kontrol audio yang komplet.',
+    ohbump_desc: 'Bot bump otomatis buat Discord server lo. Biar server lo tetep eksis dan keliatan di list dengan bump yang udah terjadwal, ges!',
+    discord_desc: 'Yuk connect sama gue langsung di Discord bestie!',
+    discord_status: 'Online & Siap Ngobrol wkwk',
+    discord_btn: 'DM Gue di Discord Gas!',
+    footer_made: 'Dibuat pake ⚡ sama Fays, gaspol!',
+    langLabel: '🔥 GAUL'
+  }
+};
+
+let currentLang = 'id';
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+  
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) {
+      if (key === 'about_title') {
+        el.innerHTML = t[key];
+      } else {
+        el.textContent = t[key];
+      }
+    }
+  });
+
+  // Update hero sub
+  typeWriter(t.heroSub || t['heroSub']);
+  
+  // Update hero tagline
+  const tagline = document.getElementById('heroTagline');
+  if (tagline) tagline.textContent = t.heroTagline;
+
+  // Update lang button
+  document.getElementById('langBtn').textContent = t.langLabel;
+
+  // Update active lang option
+  document.querySelectorAll('.lang-option').forEach((opt, i) => {
+    opt.classList.remove('active');
+    const langs = ['id','en','hi','gaul'];
+    if (langs[i] === lang) opt.classList.add('active');
+  });
+
+  closeLangMenu();
+}
+
+function toggleLangMenu() {
+  document.getElementById('langMenu').classList.toggle('open');
+}
+function closeLangMenu() {
+  document.getElementById('langMenu').classList.remove('open');
+}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.lang-dropdown')) closeLangMenu();
+});
+
+// ═══ TYPING ANIMATION ═══
+let typeTimeout;
+function typeWriter(text) {
+  const el = document.getElementById('heroSub');
+  if (!el) return;
+  clearTimeout(typeTimeout);
+  el.textContent = '';
+  let i = 0;
+  function type() {
+    if (i < text.length) {
+      el.textContent += text[i++];
+      typeTimeout = setTimeout(type, 60);
+    }
+  }
+  type();
+}
+
+// ═══ THEME ═══
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '☀️ LIGHT' : '🌙 DARK';
+}
+
+// ═══ CURSOR ═══
+const ring = document.getElementById('cursorRing');
+const dot = document.getElementById('cursorDot');
+let mouseX = 0, mouseY = 0;
+let ringX = 0, ringY = 0;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  dot.style.left = mouseX + 'px';
+  dot.style.top = mouseY + 'px';
+});
+
+(function animateRing() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateRing);
+})();
+
+document.querySelectorAll('a, button, .social-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    ring.style.width = '40px';
+    ring.style.height = '40px';
+    ring.style.borderColor = 'var(--neon-pink)';
+  });
+  el.addEventListener('mouseleave', () => {
+    ring.style.width = '20px';
+    ring.style.height = '20px';
+    ring.style.borderColor = 'var(--neon-cyan)';
+  });
+});
+
+// ═══ PARTICLES ═══
+const colors = ['#00f5ff', '#bf00ff', '#ff006e', '#39ff14', '#ff6600'];
+const container = document.getElementById('particles');
+for (let i = 0; i < 30; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const x = Math.random() * 100;
+  const dur = 8 + Math.random() * 12;
+  const delay = -Math.random() * 15;
+  const size = 1 + Math.random() * 2;
+  p.style.cssText = `
+    left:${x}vw;
+    width:${size}px; height:${size}px;
+    background:${colors[Math.floor(Math.random()*colors.length)]};
+    animation-duration:${dur}s;
+    animation-delay:${delay}s;
+    box-shadow: 0 0 ${size*3}px currentColor;
+  `;
+  container.appendChild(p);
+}
+
+// ═══ SCROLL REVEAL ═══
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ═══ INIT ═══
+window.addEventListener('load', () => {
+  setLang('id');
+});
+</script>
+</body>
+</html>
