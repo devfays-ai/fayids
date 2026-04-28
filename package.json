@@ -1,0 +1,16 @@
+{
+  "name": "fayids",
+  "version": "1.0.0",
+  "description": "Fays Portfolio - Discord developer and Roblox developer",
+  "type": "module",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "lint": "echo 'No linter configured for static HTML project'"
+  },
+  "keywords": ["portfolio", "static-site"],
+  "author": "Fays",
+  "license": "MIT",
+  "dependencies": {
+    "@vercel/speed-insights": "^1.1.0"
+  }
+}
