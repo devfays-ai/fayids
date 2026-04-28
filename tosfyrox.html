@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — Fyrox™</title>
+<meta name="theme-color" content="#7B2FFF">
+<link rel="icon" href="https://raw.githubusercontent.com/devfays-ai/fayids/main/logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+:root{
+  --void:#03020a;
+  --surface:#0d0c24;
+  --raised:#12112e;
+  --p:#7B2FFF;
+  --p2:#9B5FFF;
+  --p3:#C09FFF;
+  --cyan:#00F5FF;
+  --magenta:#FF2D78;
+  --green:#00FF94;
+  --tx:#E8E4FF;
+  --txs:#8882BB;
+  --txd:#4A4680;
+  --border:rgba(123,47,255,0.25);
+  --border2:rgba(0,245,255,0.2);
+  --glow-p:rgba(123,47,255,0.3);
+}
+
+body{
+  font-family:'Exo 2',sans-serif;
+  background:var(--void);
+  color:var(--tx);
+  min-height:100vh;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* Animated grid bg */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(123,47,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(123,47,255,.05) 1px,transparent 1px);
+  background-size:50px 50px;
+  pointer-events:none;z-index:0;
+  animation:gridDrift 30s linear infinite;
+}
+@keyframes gridDrift{0%{transform:translateY(0)}100%{transform:translateY(50px)}}
+
+/* Orbs */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 50% 40% at 10% 20%,rgba(123,47,255,.1) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 50% at 90% 80%,rgba(0,245,255,.07) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--void)}
+::-webkit-scrollbar-thumb{background:var(--p);border-radius:2px}
+::selection{background:rgba(123,47,255,.4);color:white}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:200;
+  height:58px;display:flex;align-items:center;
+  padding:0 clamp(16px,5vw,60px);gap:14px;
+  background:rgba(3,2,10,.88);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+}
+
+.nav-back{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Orbitron',monospace;font-size:.58rem;font-weight:700;
+  letter-spacing:.1em;color:var(--txs);text-decoration:none;
+  padding:8px 14px;border-radius:8px;
+  border:1px solid var(--border);
+  background:rgba(123,47,255,.08);
+  transition:all .2s;text-transform:uppercase;white-space:nowrap;
+}
+.nav-back:hover{color:var(--cyan);border-color:var(--cyan);background:rgba(0,245,255,.07)}
+.nav-back svg{width:13px;height:13px;flex-shrink:0}
+
+.nav-title{
+  font-family:'Orbitron',monospace;font-size:.7rem;font-weight:900;
+  color:var(--p3);letter-spacing:.06em;margin-left:auto;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+.nav-pp-link{
+  font-family:'Orbitron',monospace;font-size:.55rem;font-weight:700;
+  letter-spacing:.08em;color:var(--txd);text-decoration:none;
+  padding:6px 10px;border-radius:7px;border:1px solid rgba(123,47,255,.15);
+  background:rgba(123,47,255,.05);transition:all .2s;white-space:nowrap;
+}
+.nav-pp-link:hover{color:var(--p3);border-color:var(--border)}
+
+/* ── HERO ── */
+.doc-hero{
+  padding:56px clamp(16px,5vw,80px) 36px;
+  max-width:840px;margin:0 auto;
+  position:relative;z-index:1;
+}
+
+.doc-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;
+  color:var(--cyan);letter-spacing:.18em;margin-bottom:16px;
+}
+.doc-eyebrow::before,.doc-eyebrow::after{
+  content:'';display:block;height:1px;width:22px;
+  background:linear-gradient(90deg,transparent,var(--cyan));
+}
+.doc-eyebrow::after{background:linear-gradient(270deg,transparent,var(--cyan))}
+
+h1.doc-title{
+  font-family:'Orbitron',monospace;
+  font-size:clamp(2rem,6vw,3.4rem);
+  font-weight:900;line-height:1;margin-bottom:14px;
+  letter-spacing:-.01em;
+}
+h1.doc-title .grad{
+  background:linear-gradient(135deg,var(--p3) 0%,var(--cyan) 60%,var(--p2) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.doc-meta-row{
+  display:flex;flex-wrap:wrap;gap:16px;align-items:center;
+  margin-bottom:8px;
+}
+.doc-chip{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;
+  letter-spacing:.1em;color:var(--txd);
+  background:rgba(123,47,255,.06);
+  border:1px solid var(--border);
+  padding:5px 12px;border-radius:20px;
+}
+
+.doc-intro{
+  font-size:.97rem;color:var(--txs);line-height:1.75;
+  max-width:640px;font-weight:300;margin-top:14px;
+  border-left:2px solid var(--p);padding-left:16px;
+}
+
+/* ── CONTENT ── */
+.doc-content{
+  max-width:840px;margin:0 auto;
+  padding:0 clamp(16px,5vw,80px) 90px;
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;gap:16px;
+}
+
+/* TOC */
+.toc-card{
+  background:rgba(13,12,36,.65);
+  border:1px solid var(--border);
+  border-radius:14px;padding:22px 26px;
+  backdrop-filter:blur(12px);
+  margin-bottom:4px;
+}
+.toc-title{
+  font-family:'Orbitron',monospace;font-size:.65rem;font-weight:900;
+  color:var(--cyan);letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:14px;display:flex;align-items:center;gap:8px;
+}
+.toc-title svg{width:13px;height:13px}
+.toc-list{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:6px;list-style:none;
+}
+.toc-list a{
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;
+  color:var(--txs);text-decoration:none;
+  display:flex;align-items:center;gap:6px;
+  padding:5px 8px;border-radius:6px;
+  transition:all .18s;
+}
+.toc-list a:hover{color:var(--cyan);background:rgba(0,245,255,.06)}
+.toc-num{color:var(--txd);font-size:.58rem;min-width:18px}
+
+/* Section cards */
+.doc-card{
+  background:rgba(13,12,36,.65);
+  border:1px solid var(--border);
+  border-radius:16px;padding:clamp(20px,4vw,36px);
+  backdrop-filter:blur(12px);
+  transition:border-color .25s;
+  scroll-margin-top:72px;
+  position:relative;overflow:hidden;
+}
+.doc-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--p),var(--cyan),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.doc-card:hover{border-color:rgba(123,47,255,.45)}
+.doc-card:hover::before{opacity:1}
+
+/* Section heading */
+h2.sec{
+  font-family:'Orbitron',monospace;font-size:.82rem;font-weight:900;
+  color:var(--p3);letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.sec-num{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;
+  color:var(--cyan);opacity:.7;
+  background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.2);
+  padding:2px 8px;border-radius:5px;
+}
+
+/* Typography */
+p{font-size:.94rem;color:var(--txs);line-height:1.78;margin-bottom:10px}
+p:last-child{margin-bottom:0}
+ul,ol{padding-left:22px;margin-bottom:10px}
+li{font-size:.93rem;color:var(--txs);line-height:1.7;margin-bottom:6px}
+li::marker{color:var(--p2)}
+
+.hl{color:var(--cyan);font-weight:600}
+.hl-p{color:var(--p3);font-weight:600}
+.hl-g{color:var(--green);font-weight:600}
+.hl-r{color:#FF9EB5;font-weight:600}
+
+/* Special blocks */
+.warn-block{
+  background:rgba(255,45,120,.07);
+  border:1px solid rgba(255,45,120,.22);
+  border-radius:10px;padding:14px 18px;margin:14px 0;
+  font-size:.88rem;color:#ffb3c6;line-height:1.65;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.warn-block svg{width:16px;height:16px;flex-shrink:0;margin-top:2px;color:#FF2D78}
+
+.info-block{
+  background:rgba(0,245,255,.05);
+  border:1px solid rgba(0,245,255,.18);
+  border-radius:10px;padding:14px 18px;margin:14px 0;
+  font-size:.88rem;color:#a0f5ff;line-height:1.65;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.info-block svg{width:16px;height:16px;flex-shrink:0;margin-top:2px;color:var(--cyan)}
+
+.good-block{
+  background:rgba(0,255,148,.05);
+  border:1px solid rgba(0,255,148,.18);
+  border-radius:10px;padding:14px 18px;margin:14px 0;
+  font-size:.88rem;color:#a0ffda;line-height:1.65;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.good-block svg{width:16px;height:16px;flex-shrink:0;margin-top:2px;color:var(--green)}
+
+/* Table */
+.rules-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.87rem}
+.rules-table th{
+  font-family:'Orbitron',monospace;font-size:.6rem;font-weight:700;
+  letter-spacing:.08em;color:var(--txd);text-transform:uppercase;
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  text-align:left;background:rgba(123,47,255,.06);
+}
+.rules-table td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--txs)}
+.rules-table tr:last-child td{border-bottom:none}
+.rules-table tr:hover td{background:rgba(123,47,255,.04)}
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;
+  padding:2px 8px;border-radius:20px;
+}
+.badge-warn{background:rgba(255,45,120,.12);border:1px solid rgba(255,45,120,.3);color:#FF9EB5}
+.badge-ok{background:rgba(0,255,148,.1);border:1px solid rgba(0,255,148,.25);color:var(--green)}
+.badge-info{background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.2);color:var(--cyan)}
+
+/* Divider */
+.sec-divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:4px 0}
+
+/* Contact chips */
+.contact-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.contact-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:10px;
+  border:1px solid var(--border);
+  background:rgba(123,47,255,.08);
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;
+  color:var(--p3);text-decoration:none;transition:all .2s;
+}
+.contact-chip:hover{background:rgba(123,47,255,.16);border-color:var(--p);color:var(--tx)}
+.contact-chip svg{width:14px;height:14px;flex-shrink:0}
+
+/* Footer */
+footer.doc-footer{
+  position:relative;z-index:1;
+  text-align:center;padding:28px 20px;
+  border-top:1px solid var(--border);
+  font-family:'JetBrains Mono',monospace;font-size:.64rem;color:var(--txd);
+}
+.footer-name{
+  font-family:'Orbitron',monospace;font-size:.9rem;font-weight:900;
+  color:var(--tx);margin-bottom:6px;letter-spacing:.05em;
+}
+.footer-name span{color:var(--cyan)}
+.footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.footer-links a{color:var(--p3);text-decoration:none;font-size:.6rem;opacity:.7;transition:opacity .2s}
+.footer-links a:hover{opacity:1}
+
+@media(max-width:600px){
+  .toc-list{grid-template-columns:1fr 1fr}
+  .rules-table{font-size:.8rem}
+  .rules-table th,.rules-table td{padding:8px 10px}
+  .contact-row{flex-direction:column}
+  .contact-chip{justify-content:center}
+  .nav-pp-link{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-back">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/></svg>
+    Portfolio
+  </a>
+  <div class="nav-title">FYROX™ // TERMS OF SERVICE</div>
+  <a href="ppfyrox.html" class="nav-pp-link">Privacy Policy →</a>
+</nav>
+
+<!-- HERO -->
+<div class="doc-hero">
+  <div class="doc-eyebrow">LEGAL DOCUMENT</div>
+  <h1 class="doc-title">Terms of<br><span class="grad">Service</span></h1>
+  <div class="doc-meta-row">
+    <div class="doc-chip">FYROX™ DISCORD BOT</div>
+    <div class="doc-chip">EFFECTIVE: JANUARY 2025</div>
+    <div class="doc-chip">VERSION 1.0</div>
+  </div>
+  <p class="doc-intro">
+    By inviting or using Fyrox™ in any Discord server, you agree to be bound by these Terms of Service.
+    Please read them carefully. If you do not agree, do not use Fyrox™.
+  </p>
+</div>
+
+<!-- CONTENT -->
+<div class="doc-content">
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc-card">
+    <div class="toc-title">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1-5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/></svg>
+      Table of Contents
+    </div>
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">01</span>Acceptance of Terms</a></li>
+      <li><a href="#s2"><span class="toc-num">02</span>Eligibility</a></li>
+      <li><a href="#s3"><span class="toc-num">03</span>Permitted Use</a></li>
+      <li><a href="#s4"><span class="toc-num">04</span>Prohibited Conduct</a></li>
+      <li><a href="#s5"><span class="toc-num">05</span>Server Admin Rules</a></li>
+      <li><a href="#s6"><span class="toc-num">06</span>Moderation & Bans</a></li>
+      <li><a href="#s7"><span class="toc-num">07</span>Intellectual Property</a></li>
+      <li><a href="#s8"><span class="toc-num">08</span>Disclaimer of Warranties</a></li>
+      <li><a href="#s9"><span class="toc-num">09</span>Limitation of Liability</a></li>
+      <li><a href="#s10"><span class="toc-num">10</span>Modifications</a></li>
+      <li><a href="#s11"><span class="toc-num">11</span>Termination</a></li>
+      <li><a href="#s12"><span class="toc-num">12</span>Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- 01 -->
+  <div class="doc-card" id="s1">
+    <h2 class="sec"><span class="sec-num">01</span>Acceptance of Terms</h2>
+    <p>These Terms of Service ("ToS") constitute a legally binding agreement between you ("User", "Server Admin") and <span class="hl-p">Fays</span> ("Developer", "we", "us"), the creator of <span class="hl">Fyrox™</span> ("the Bot").</p>
+    <p>By using, inviting, or interacting with Fyrox™ in any capacity, you confirm that you have read, understood, and agree to be bound by these Terms. This applies to all users within any Discord server where Fyrox™ is present.</p>
+    <div class="info-block">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+      These Terms apply alongside Discord's own Terms of Service. You must comply with both.
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="doc-card" id="s2">
+    <h2 class="sec"><span class="sec-num">02</span>Eligibility</h2>
+    <p>To use Fyrox™, you must:</p>
+    <ul>
+      <li>Be at least <span class="hl">13 years of age</span>, or meet the minimum age requirement in your country, consistent with Discord's Terms of Service.</li>
+      <li>Have a valid Discord account in good standing.</li>
+      <li>Have the authority to add bots to a Discord server if you are a server administrator.</li>
+      <li>Not be previously banned from using Fyrox™ by the Developer.</li>
+    </ul>
+    <div class="warn-block">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+      Use of Fyrox™ by individuals under the age of 13 is strictly prohibited and may result in an immediate ban.
+    </div>
+  </div>
+
+  <!-- 03 -->
+  <div class="doc-card" id="s3">
+    <h2 class="sec"><span class="sec-num">03</span>Permitted Use</h2>
+    <p>Fyrox™ is provided for personal and community use within Discord servers. Permitted uses include:</p>
+    <div class="good-block">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>
+      <div>
+        Using moderation commands to manage your community fairly and transparently.<br>
+        Playing music for entertainment in voice channels.<br>
+        Using economy and games features for community engagement.<br>
+        Configuring the bot through provided settings and commands.<br>
+        Using utility commands to help server members.
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="doc-card" id="s4">
+    <h2 class="sec"><span class="sec-num">04</span>Prohibited Conduct</h2>
+    <p>The following actions are strictly prohibited and may result in an immediate ban from Fyrox™:</p>
+
+    <table class="rules-table">
+      <thead>
+        <tr>
+          <th>Behavior</th>
+          <th>Severity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Attempting to exploit, crash, or DDoS the bot or its infrastructure</td>
+          <td><span class="badge badge-warn">Permanent Ban</span></td>
+        </tr>
+        <tr>
+          <td>Using Fyrox™ to harass, threaten, or harm other users</td>
+          <td><span class="badge badge-warn">Permanent Ban</span></td>
+        </tr>
+        <tr>
+          <td>Using the bot to distribute illegal content, NSFW outside designated channels, or spam</td>
+          <td><span class="badge badge-warn">Permanent Ban</span></td>
+        </tr>
+        <tr>
+          <td>Attempting to reverse-engineer, copy, or resell Fyrox™ code or branding</td>
+          <td><span class="badge badge-warn">Permanent Ban</span></td>
+        </tr>
+        <tr>
+          <td>Abusing command cooldowns or rate limits via automation or scripting</td>
+          <td><span class="badge badge-warn">Temporary / Perm Ban</span></td>
+        </tr>
+        <tr>
+          <td>Misusing economy features (e.g., exploiting bugs for infinite coins)</td>
+          <td><span class="badge badge-info">Warning / Reset</span></td>
+        </tr>
+        <tr>
+          <td>Using the bot to violate Discord's Community Guidelines</td>
+          <td><span class="badge badge-warn">Permanent Ban</span></td>
+        </tr>
+        <tr>
+          <td>Impersonating the Developer or staff in relation to Fyrox™</td>
+          <td><span class="badge badge-warn">Permanent Ban</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>The Developer reserves the right to take additional action beyond the listed severity at their sole discretion.</p>
+  </div>
+
+  <!-- 05 -->
+  <div class="doc-card" id="s5">
+    <h2 class="sec"><span class="sec-num">05</span>Server Administrator Rules</h2>
+    <p>If you are a server administrator who has invited Fyrox™ to your server, you take on additional responsibility:</p>
+    <ul>
+      <li>You are responsible for how Fyrox™ is configured and used within your server.</li>
+      <li>You must ensure your community members are aware of these Terms.</li>
+      <li>You <span class="hl-r">must not</span> configure Fyrox™ to be used as a tool for harassment, brigading, or targeted abuse campaigns.</li>
+      <li>You must configure NSFW commands (if any) only in appropriately age-gated channels.</li>
+      <li>You agree not to use Fyrox™ features to violate the privacy of your server members.</li>
+      <li>Servers found to be in violation of these rules may have Fyrox™ <span class="hl-r">permanently removed</span> and blacklisted.</li>
+    </ul>
+    <div class="info-block">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+      As a server admin, you are the first line of moderation. Please use Fyrox™ responsibly and for the benefit of your community.
+    </div>
+  </div>
+
+  <!-- 06 -->
+  <div class="doc-card" id="s6">
+    <h2 class="sec"><span class="sec-num">06</span>Moderation &amp; Bans</h2>
+    <p>The Developer reserves the right to restrict, suspend, or permanently ban any user or server from using Fyrox™ at any time, for any reason, including but not limited to:</p>
+    <ul>
+      <li>Violations of these Terms of Service.</li>
+      <li>Violations of Discord's Terms of Service or Community Guidelines.</li>
+      <li>Behavior that threatens the integrity, safety, or reputation of Fyrox™ or its users.</li>
+      <li>Repeated minor violations after prior warnings.</li>
+    </ul>
+    <p><span class="hl">Ban Appeals:</span> If you believe you were banned unfairly, you may appeal by contacting the Developer directly via Discord (<span class="hl-p">fayajacuyyy</span>). Appeals are reviewed at the Developer's discretion and are not guaranteed to result in an unban.</p>
+    <div class="warn-block">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+      Bans are final unless explicitly reversed by the Developer. Do not attempt to circumvent a ban by creating alternate accounts.
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="doc-card" id="s7">
+    <h2 class="sec"><span class="sec-num">07</span>Intellectual Property</h2>
+    <p>All source code, branding, assets, names, and features associated with <span class="hl">Fyrox™</span> are the exclusive intellectual property of <span class="hl-p">Fays (the Developer)</span>.</p>
+    <ul>
+      <li>You may <span class="hl-r">not</span> copy, reproduce, redistribute, or resell any portion of Fyrox™'s code or assets.</li>
+      <li>You may <span class="hl-r">not</span> create derivative works based on Fyrox™ without explicit written permission from the Developer.</li>
+      <li>You may <span class="hl-r">not</span> use the Fyrox™ name, logo, or brand for commercial purposes.</li>
+      <li>Unauthorized use of Fyrox™'s intellectual property may result in legal action.</li>
+    </ul>
+    <div class="good-block">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>
+      <div>You are allowed to share screenshots, recommend the bot to others, create fan content, and mention Fyrox™ in a positive or neutral context, as long as it is not misleading or defamatory.</div>
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="doc-card" id="s8">
+    <h2 class="sec"><span class="sec-num">08</span>Disclaimer of Warranties</h2>
+    <p>Fyrox™ is provided <span class="hl">"as is"</span> and <span class="hl">"as available"</span> without any warranties of any kind, either express or implied, including but not limited to:</p>
+    <ul>
+      <li>Warranties of merchantability or fitness for a particular purpose.</li>
+      <li>Guarantees of uninterrupted, error-free, or secure operation.</li>
+      <li>Guarantees that defects will be corrected immediately.</li>
+      <li>Guarantees of permanent data retention (e.g., economy balances, XP).</li>
+    </ul>
+    <p>The Developer makes no warranty that Fyrox™ will always be available, bug-free, or maintain 100% uptime. Downtime for maintenance, updates, or unforeseen issues may occur at any time.</p>
+  </div>
+
+  <!-- 09 -->
+  <div class="doc-card" id="s9">
+    <h2 class="sec"><span class="sec-num">09</span>Limitation of Liability</h2>
+    <p>To the fullest extent permitted by applicable law, the Developer shall <span class="hl-r">not</span> be liable for any:</p>
+    <ul>
+      <li>Indirect, incidental, consequential, or punitive damages arising from your use of Fyrox™.</li>
+      <li>Loss of data, including but not limited to economy balances, XP, or server configurations, due to technical failures.</li>
+      <li>Damages resulting from unauthorized access to, or alteration of, your data.</li>
+      <li>Actions taken by third-party users within your server using Fyrox™ commands.</li>
+      <li>Any decisions made based on bot output or automated responses.</li>
+    </ul>
+    <p>Your sole remedy for dissatisfaction with Fyrox™ is to discontinue use of the bot.</p>
+  </div>
+
+  <!-- 10 -->
+  <div class="doc-card" id="s10">
+    <h2 class="sec"><span class="sec-num">10</span>Modifications to Terms</h2>
+    <p>The Developer reserves the right to modify these Terms of Service at any time. Changes will be communicated through:</p>
+    <ul>
+      <li>An announcement in the official support server.</li>
+      <li>An update notice in the bot's status or activity message.</li>
+      <li>An updated "Last Updated" date on this page.</li>
+    </ul>
+    <p>Your continued use of Fyrox™ following any changes constitutes your acceptance of the revised Terms. If you do not agree to the updated Terms, you must stop using Fyrox™ and request its removal from your server.</p>
+    <div class="info-block">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+      It is your responsibility to review these Terms periodically. We recommend joining the support server to stay updated.
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="doc-card" id="s11">
+    <h2 class="sec"><span class="sec-num">11</span>Termination</h2>
+    <p>Either party may terminate this agreement at any time:</p>
+    <ul>
+      <li><span class="hl-g">You</span> may stop using Fyrox™ and remove it from your server at any time without penalty.</li>
+      <li><span class="hl-p">We</span> may terminate your access to Fyrox™ at any time, for any reason, with or without notice, particularly in cases of ToS violations.</li>
+    </ul>
+    <p>Upon termination, all licenses and permissions granted to you under these Terms will immediately cease. Data retained in our systems will be handled as outlined in the <a href="ppfyrox.html" style="color:var(--p3);text-decoration:none;border-bottom:1px solid rgba(192,159,255,.3)">Privacy Policy</a>.</p>
+  </div>
+
+  <!-- 12 -->
+  <div class="doc-card" id="s12">
+    <h2 class="sec"><span class="sec-num">12</span>Contact &amp; Support</h2>
+    <p>If you have any questions, concerns, or disputes regarding these Terms of Service, please reach out through the following channels:</p>
+    <div class="contact-row">
+      <a href="https://discord.com/users/fayajacuyyy" target="_blank" class="contact-chip">
+        <svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.104a13.201 13.201 0 01-1.872-.892.077.077 0 01-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.1.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.105c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        Discord — fayajacuyyy
+      </a>
+      <a href="mailto:devfays@gmail.com" class="contact-chip">
+        <svg viewBox="0 0 24 24" fill="#EA4335"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+        devfays@gmail.com
+      </a>
+      <a href="https://wa.me/6285199284292" target="_blank" class="contact-chip">
+        <svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+    <p style="margin-top:16px;font-size:.85rem">For urgent moderation issues or abuse reports related to Fyrox™, please contact us through Discord for the fastest response.</p>
+  </div>
+
+</div>
+
+<footer class="doc-footer">
+  <div class="footer-name">FAY<span>S</span></div>
+  <div>FYROX™ TERMS OF SERVICE &nbsp;·&nbsp; © 2025 FAYS &nbsp;·&nbsp; ALL RIGHTS RESERVED</div>
+  <div class="footer-links">
+    <a href="index.html">← Portfolio</a>
+    <a href="ppfyrox.html">Privacy Policy</a>
+    <a href="https://discord.com/users/fayajacuyyy" target="_blank">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
